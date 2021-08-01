@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Farnaz Kakhsaz - FE Dev</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">Header</div>
+      <div class="head-nav">
+        <ul>
+          <li>Home</li>
+          <li>Second Menu</li>
+          <li>
+            Parent Menu
+            <ul>
+              <li>Sub Menu #1</li>
+              <li>Sub Menu #1</li>
+              <li>Sub Menu #1</li>
+              <li>Sub Menu #1</li>
+            </ul>
+          </li>
+          </li>
+
+          <li>About Us</li>
+        </ul>
+      </div>
+      <div class="main">
+        <h2>Enter Counrty</h2>
+        <!-- URL https://restcountries.eu/rest/v2/name/ira -->
+        <input
+          id="input-search"
+          type="text"
+          value=""
+          placeholder="Enter your country"
+        />
+
+        <div id="search-result"></div>
+        <p>
+          Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+          nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+          volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+          ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+          Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse
+          molestie consequat, vel illum dolore eu feugiat nulla facilisis at
+          vero eros et accumsan et iusto odio dignissim qui blandit praesent
+          luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+        </p>
+      </div>
+      <div class="footer">Test Template</div>
+    </div>
+    <script>
+      let searchValue = "Ira";
+      let searchResult = "";
+      let resultList = [];
+
+      document
+        .getElementById("input-search")
+        .addEventListener("keyup", handleOnChange);
+
+      function handleOnChange(event) {
+        searchValue = event.target.value;
+
+        console.log({ searchValue });
+        fetch(`https://restcountries.eu/rest/v2/name/${searchValue}`)
+          .then((res) => res.json())
+          .then((data) => (resultList = data));
+
+        console.log(resultList.map((item) => item.name));
+        // document.getElementById("search-result").innerHTML += searchResult;
+
+        console.log(searchResult);
+      }
+    </script>
+  </body>
+</html>
