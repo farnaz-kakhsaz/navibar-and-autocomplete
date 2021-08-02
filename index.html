@@ -37,6 +37,7 @@
         />
 
         <div id="search-result"></div>
+        <ol id="list-container"></ol>
         <p>
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
           nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
@@ -51,27 +52,57 @@
       <div class="footer">Test Template</div>
     </div>
     <script>
-      let searchValue = "Ira";
-      let searchResult = "";
-      let resultList = [];
+      window.onload = function() {
+        const searchResult = "";
+        let resultList = [];
+        const inputSearchHtml = document.getElementById("input-search");
+        const listContainer = document.getElementById("list-container");
+        
+        inputSearchHtml.addEventListener("keypress", handleOnInputChange);
+        
+        function handleOnInputChange(event) {
+          fetchData(event.target.value);
+        }
+        
+        function fetchData(searchValue = "Iran") {
+          if(searchValue){
+            fetch(`https://restcountries.eu/rest/v2/name/${searchValue}`)
+            .then((res) => res.json())
+            .then((data) => {
+              const isStatus404 = data.status === 404
+              resultList = !isStatus404 && data.map((item) => item.name);
+              !isStatus404 && createList(resultList);
+            })
+            .catch(error=> console.error(error));
+          }
+        }
+        
+        function createList(resultList) {
+          listContainer.innerHTML = resultList.map((item, index) => 
+          `<li class="all-list" id="list-${index}">${item}</li>`).join('');
+          createListener();
+        }
+        
+        function createListener() {
+        const allListHtml = document.querySelectorAll(".all-list");
 
-      // document
-      //   .getElementById("input-search")
-      //   .addEventListener("keyup", handleOnChange);
-
-      function handleOnChange(event) {
-        searchValue = event.target.value;
-
-        console.log({ searchValue });
-        fetch(`https://restcountries.eu/rest/v2/name/${searchValue}`)
-          .then((res) => res.json())
-          .then((data) => (resultList = data));
-
-        console.log(resultList.map((item) => item.name));
-        // document.getElementById("search-result").innerHTML += searchResult;
-
-        console.log(searchResult);
+        for (var i = 0; i < allListHtml.length; i++) {
+          allListHtml[i].addEventListener("click", handleOnListClick);
+        }
       }
+      
+      function handleOnListClick(event) {
+        const selectedItem = document.getElementById(event.target.id);
+        const listHtml = document.getElementsByClassName("all-list");
+        
+        const selectedText = selectedItem.innerHTML;
+        inputSearchHtml.value = selectedText;
+        
+        while (listContainer.firstChild) {
+          listContainer.firstChild.remove();
+        }
+      }
+    }
     </script>
   </body>
 </html>

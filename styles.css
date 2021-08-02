@@ -2,6 +2,10 @@ body {
   background: #dadada;
   font-family: Tahoma;
 }
+
+li {
+  cursor: pointer;
+}
 .container {
   width: 100%;
   margin: auto;
@@ -37,7 +41,6 @@ body {
 .head-nav ul li,
 .head-nav ul li ul {
   display: inline-block;
-  cursor: pointer;
   color: white;
   -webkit-transition: all 0.25s ease-in-out;
   -moz-transition: all 0.25s ease-in-out;
@@ -69,10 +72,15 @@ body {
   visibility: visible;
 }
 
-.nav-container {
-  display: flex;
-  justify-content: space-between;
+#input-search {
+  width: 100%;
+  max-width: 200px;
 }
+
+#list-container {
+  width: fit-content;
+}
+
 .main {
   background: #fff;
   padding: 15px;
