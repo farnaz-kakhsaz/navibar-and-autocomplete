@@ -64,7 +64,7 @@
           fetchData(event.target.value);
         }
         
-        function fetchData(searchValue = "Iran") {
+        function fetchData(searchValue) {
           if(searchValue){
             fetch(`https://restcountries.eu/rest/v2/name/${searchValue}`)
             .then((res) => res.json())
